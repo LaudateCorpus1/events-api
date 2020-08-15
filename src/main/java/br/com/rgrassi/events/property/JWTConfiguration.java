@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @ToString
 public class JWTConfiguration {
   private String loginUrl = "/login/**";
+  private String singUpUrl = "/signup/**";
   private String SECRET = "82B1EB4A3A2231CBB8D822EF2BBBA";
   private Header header = new Header();
   private long expiration = 86400000l;

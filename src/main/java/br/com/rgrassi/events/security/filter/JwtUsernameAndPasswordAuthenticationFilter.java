@@ -1,9 +1,10 @@
-package br.com.rgrassi.events.config;
+package br.com.rgrassi.events.security.filter;
 
 import br.com.rgrassi.events.model.ApplicationUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,29 +19,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
-
-public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private final AuthenticationManager authenticationManager;
-
-  public JWTAuthFilter(AuthenticationManager authenticationManager) {
-    this.authenticationManager = authenticationManager;
-  }
 
   @Override
   @SneakyThrows
   public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-    ApplicationUser user = new ObjectMapper().readValue(request.getInputStream(), ApplicationUser.class);
-    if (user == null) {
+    ApplicationUser applicationUser = new ObjectMapper().readValue(request.getInputStream(), ApplicationUser.class);
+
+    if (applicationUser == null) {
       throw new UsernameNotFoundException("Unable to retrieve the username or password");
     }
 
-    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-            user.getEmail(),
-            user.getPassword(),
-            Collections.emptyList());
-    usernamePasswordAuthenticationToken.setDetails(user);
+    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(applicationUser.getEmail(), applicationUser.getPassword(), Collections.emptyList());
 
-    return this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+    usernamePasswordAuthenticationToken.setDetails(applicationUser);
+
+    return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
   }
 
   @Override
@@ -48,3 +44,5 @@ public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
 
   }
 }
+
+

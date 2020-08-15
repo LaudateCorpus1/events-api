@@ -19,7 +19,9 @@ public class ApplicationUser {
   @EqualsAndHashCode.Include
   private String id;
 
+  @ToString.Exclude
   private String password;
+
   private String email;
 
   public ApplicationUser(@NotNull ApplicationUser applicationUser) {
