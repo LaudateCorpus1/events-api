@@ -1,22 +1,24 @@
 package br.com.rgrassi.events.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
+@Document(collection = "event")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
-@Document(collection = "event")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Event {
   @Id
+  @EqualsAndHashCode.Include
   private String id;
   private String name;
   private LocalDateTime date;
-  private ApplicationUser user;
+  private String userId;
 }

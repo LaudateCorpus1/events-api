@@ -1,12 +1,14 @@
 package br.com.rgrassi.events.security.user;
 
 import br.com.rgrassi.events.model.ApplicationUser;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
+@ToString
 public class UserDetailsImpl extends ApplicationUser implements UserDetails {
   public UserDetailsImpl(@NotNull ApplicationUser applicationUser) {
     super(applicationUser);
@@ -17,10 +19,10 @@ public class UserDetailsImpl extends ApplicationUser implements UserDetails {
     return null;
   }
 
-  @Override
+/*  @Override
   public String getUsername() {
-    return this.getEmail();
-  }
+    return this.getUsername();
+  }*/
 
   @Override
   public boolean isAccountNonExpired() {

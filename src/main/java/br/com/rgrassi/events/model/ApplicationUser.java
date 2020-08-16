@@ -19,14 +19,13 @@ public class ApplicationUser {
   @EqualsAndHashCode.Include
   private String id;
 
-  @ToString.Exclude
   private String password;
 
-  private String email;
+  private String username;
 
   public ApplicationUser(@NotNull ApplicationUser applicationUser) {
     this.id = applicationUser.getId();
-    this.password = applicationUser.getEmail();
-    this.email = applicationUser.getEmail();
+    this.password = applicationUser.getPassword();
+    this.username = applicationUser.getUsername();
   }
 }

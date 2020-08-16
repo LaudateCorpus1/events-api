@@ -4,9 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
+@Primary
 @ConfigurationProperties(prefix = "jwt.config")
 @Getter
 @Setter
@@ -14,10 +17,10 @@ import org.springframework.context.annotation.Configuration;
 public class JWTConfiguration {
   private String loginUrl = "/login/**";
   private String singUpUrl = "/signup/**";
-  private String SECRET = "82B1EB4A3A2231CBB8D822EF2BBBA";
+  private String secretKey = "82B1EB4A3A2231CBB8D822EF2BBBA";
+  @NestedConfigurationProperty
   private Header header = new Header();
   private long expiration = 86400000l;
-  private String privateKey = "2U4SWK6BRQL1SxHiRhlUbkRhjf1j2HRZ";
 
   @Getter
   @Setter

@@ -1,9 +1,12 @@
 package br.com.rgrassi.events.security.filter;
 
 import br.com.rgrassi.events.model.ApplicationUser;
+import br.com.rgrassi.events.property.JWTConfiguration;
+import br.com.rgrassi.events.security.service.TokensService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +25,8 @@ import java.util.Collections;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
   private final AuthenticationManager authenticationManager;
+  private final TokensService tokensService;
+  private final JWTConfiguration jwtConfiguration;
 
   @Override
   @SneakyThrows
@@ -32,16 +37,23 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
       throw new UsernameNotFoundException("Unable to retrieve the username or password");
     }
 
-    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(applicationUser.getEmail(), applicationUser.getPassword(), Collections.emptyList());
+    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(applicationUser.getUsername(), applicationUser.getPassword());
 
-    usernamePasswordAuthenticationToken.setDetails(applicationUser);
-
-    return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+    try {
+      return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+    } catch(AuthenticationException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
-  protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+  protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication auth) throws IOException, ServletException {
+    ApplicationUser applicationUser = (ApplicationUser) auth.getPrincipal();
 
+    String token = tokensService.generateToken(applicationUser);
+
+    response.getWriter().write(jwtConfiguration.getHeader().getPrefix() + token);
+    response.addHeader(jwtConfiguration.getHeader().getName(), jwtConfiguration.getHeader().getPrefix() + token);
   }
 }
 

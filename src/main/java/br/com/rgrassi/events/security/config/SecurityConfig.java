@@ -1,9 +1,14 @@
 package br.com.rgrassi.events.security.config;
 
 import br.com.rgrassi.events.property.JWTConfiguration;
+import br.com.rgrassi.events.security.filter.JwtTokenAuthorizationFilter;
+import br.com.rgrassi.events.security.filter.JwtUsernameAndPasswordAuthenticationFilter;
+import br.com.rgrassi.events.security.service.TokensService;
+import br.com.rgrassi.events.security.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,25 +23,26 @@ import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
-  private final UserDetailsService userDetailsService;
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+  private final UserDetailsServiceImpl userDetailsService;
   private final JWTConfiguration jwtConfiguration;
+  private final TokensService tokensService;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-      .csrf().disable()
       .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
       .and()
+      .csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
       .and()
-        .exceptionHandling().authenticationEntryPoint((request, response, e) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+        .authorizeRequests()
+          .antMatchers(HttpMethod.POST, jwtConfiguration.getLoginUrl()).permitAll()
+          .antMatchers(HttpMethod.POST, jwtConfiguration.getSingUpUrl()).permitAll()
+          .anyRequest().authenticated()
       .and()
-        .addFilter(new UsernamePasswordAuthenticationFilter())
-      .authorizeRequests()
-        .antMatchers(jwtConfiguration.getLoginUrl()).permitAll()
-        .antMatchers(jwtConfiguration.getSingUpUrl()).permitAll()
-        .anyRequest().authenticated();
+        .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), tokensService, jwtConfiguration))
+        .addFilter(new JwtTokenAuthorizationFilter(authenticationManager(), jwtConfiguration, tokensService, userDetailsService));
   }
 
   @Override
