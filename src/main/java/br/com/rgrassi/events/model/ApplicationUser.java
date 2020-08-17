@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Document(collection = "user")
@@ -19,8 +21,10 @@ public class ApplicationUser {
   @EqualsAndHashCode.Include
   private String id;
 
+  @NotEmpty
   private String password;
 
+  @NotEmpty @Email
   private String username;
 
   public ApplicationUser(@NotNull ApplicationUser applicationUser) {
