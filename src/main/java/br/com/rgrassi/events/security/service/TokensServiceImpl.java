@@ -1,12 +1,10 @@
 package br.com.rgrassi.events.security.service;
 
-import br.com.rgrassi.events.model.ApplicationUser;
+import br.com.rgrassi.events.modules.users.mongodb.entities.ApplicationUser;
 import br.com.rgrassi.events.property.JWTConfiguration;
-import com.sun.security.auth.UserPrincipal;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

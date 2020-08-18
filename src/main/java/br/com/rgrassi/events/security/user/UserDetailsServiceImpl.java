@@ -1,16 +1,13 @@
 package br.com.rgrassi.events.security.user;
 
-import br.com.rgrassi.events.model.ApplicationUser;
-import br.com.rgrassi.events.repository.ApplicationUserRepository;
+import br.com.rgrassi.events.modules.users.mongodb.entities.ApplicationUser;
+import br.com.rgrassi.events.modules.users.mongodb.repositories.ApplicationUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

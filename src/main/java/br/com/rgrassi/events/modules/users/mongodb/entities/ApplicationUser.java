@@ -1,4 +1,4 @@
-package br.com.rgrassi.events.model;
+package br.com.rgrassi.events.modules.users.mongodb.entities;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

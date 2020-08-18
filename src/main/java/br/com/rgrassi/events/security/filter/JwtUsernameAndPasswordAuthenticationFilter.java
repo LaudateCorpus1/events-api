@@ -1,12 +1,11 @@
 package br.com.rgrassi.events.security.filter;
 
-import br.com.rgrassi.events.model.ApplicationUser;
+import br.com.rgrassi.events.modules.users.mongodb.entities.ApplicationUser;
 import br.com.rgrassi.events.property.JWTConfiguration;
 import br.com.rgrassi.events.security.service.TokensService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +19,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {

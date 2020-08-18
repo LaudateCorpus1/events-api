@@ -1,4 +1,4 @@
-package br.com.rgrassi.events.model;
+package br.com.rgrassi.events.modules.events.mongodb.entities;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Document(collection = "event")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -27,6 +26,5 @@ public class Event {
   @NotNull
   private LocalDateTime date;
 
-  @NotEmpty
   private String userId;
 }

@@ -1,6 +1,6 @@
-package br.com.rgrassi.events.repository;
+package br.com.rgrassi.events.modules.users.mongodb.repositories;
 
-import br.com.rgrassi.events.model.ApplicationUser;
+import br.com.rgrassi.events.modules.users.mongodb.entities.ApplicationUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

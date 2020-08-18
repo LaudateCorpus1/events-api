@@ -1,6 +1,6 @@
 package br.com.rgrassi.events.security.filter;
 
-import br.com.rgrassi.events.model.ApplicationUser;
+import br.com.rgrassi.events.modules.users.mongodb.entities.ApplicationUser;
 import br.com.rgrassi.events.property.JWTConfiguration;
 import br.com.rgrassi.events.security.service.TokensService;
 import org.springframework.security.authentication.AuthenticationManager;

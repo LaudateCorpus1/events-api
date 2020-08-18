@@ -1,6 +1,6 @@
 package br.com.rgrassi.events.security.user;
 
-import br.com.rgrassi.events.model.ApplicationUser;
+import br.com.rgrassi.events.modules.users.mongodb.entities.ApplicationUser;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
