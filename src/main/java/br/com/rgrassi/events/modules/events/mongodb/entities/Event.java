@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Document(collection = "event")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
