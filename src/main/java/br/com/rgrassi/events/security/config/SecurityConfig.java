@@ -36,11 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
       .and()
+        .exceptionHandling().authenticationEntryPoint((request, response, e) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.toString()))
+      .and()
         .authorizeRequests()
           .antMatchers(HttpMethod.POST, jwtConfiguration.getLoginUrl()).permitAll()
           .antMatchers(HttpMethod.POST, jwtConfiguration.getSingUpUrl()).permitAll()
           .anyRequest().authenticated()
       .and()
+        .httpBasic().disable()
         .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), tokensService, jwtConfiguration))
         .addFilter(new JwtTokenAuthorizationFilter(authenticationManager(), jwtConfiguration, tokensService, userDetailsService));
   }

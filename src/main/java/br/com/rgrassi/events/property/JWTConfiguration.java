@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Primary;
 @Setter
 @ToString
 public class JWTConfiguration {
-  private String loginUrl = "/login/**";
+  private String loginUrl = "/signin/**";
   private String singUpUrl = "/signup/**";
   private String secretKey = "82B1EB4A3A2231CBB8D822EF2BBBA";
   @NestedConfigurationProperty
