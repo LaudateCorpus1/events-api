@@ -1,5 +1,6 @@
 package br.com.rgrassi.events.modules.users.mongodb.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,7 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Document(collection = "user")
+@Document(collection = "users")
 @Getter
 @Setter
 @Builder
@@ -21,6 +22,7 @@ public class ApplicationUser {
   @EqualsAndHashCode.Include
   private String id;
 
+  @JsonIgnore
   @NotEmpty
   private String password;
 

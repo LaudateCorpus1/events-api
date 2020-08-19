@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Document(collection = "event")
+@Document(collection = "events")
 @Getter
 @Setter
 @Builder

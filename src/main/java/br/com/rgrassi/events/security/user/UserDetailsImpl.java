@@ -19,11 +19,6 @@ public class UserDetailsImpl extends ApplicationUser implements UserDetails {
     return null;
   }
 
-/*  @Override
-  public String getUsername() {
-    return this.getUsername();
-  }*/
-
   @Override
   public boolean isAccountNonExpired() {
     return true;
