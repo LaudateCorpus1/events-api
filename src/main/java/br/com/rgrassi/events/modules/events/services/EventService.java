@@ -1,11 +1,13 @@
 package br.com.rgrassi.events.modules.events.services;
 
+import br.com.rgrassi.events.error.IllegalArgumentException;
 import br.com.rgrassi.events.error.ResourceNotFoundException;
 import br.com.rgrassi.events.modules.events.mongodb.entities.Event;
 import br.com.rgrassi.events.modules.events.repositories.IEventsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,6 +20,10 @@ public class EventService {
   }
 
   public Event save(Event event) {
+    if (event.getDate().isBefore(LocalDateTime.now())) {
+      throw new IllegalArgumentException("You can't create an event on a past date");
+    }
+
     eventRepository.save(event);
     return event;
   }
